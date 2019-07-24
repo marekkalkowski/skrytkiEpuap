@@ -1,0 +1,8 @@
+# IntelliJ Idea
+.idea/
+out/
+*.ipr
+*.iws
+*.iml
+target/
+app.properties
