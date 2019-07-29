@@ -1,24 +1,32 @@
 package pl.gdansk.gci;
 
 import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.DriverManager;
+import java.util.Properties;
 
 public class DatabaseConnection {
 
-    String hostName = "DB-EZD-EDU\\EZD_EDU"; // update me
-    String dbName = "ezdEduUmg"; // update me
-    String user = "UMG\\ezd-edu-proces"; // update me
-    String password = "Mgh56@AqFz"; // update me
-    String url = String.format("jdbc:sqlserver://%s:52313;database=%s;user=%s;password=%s;encrypt=true;"
-             , hostName, dbName, user, password);
-    Connection connection = null;
+//    String hostName = "DB-EZD-EDU\\EZD_EDU"; // update me
+//    String dbName = "ezdEduUmg"; // update me
+//    String user = "UMG\\ezd-edu-proces"; // update me
+//    String password = "Mgh56@AqFz"; // update me
+
+
 
     //+ "hostNameInCertificate=*.database.windows.net;loginTimeout=30;"
-    public void gettingConnectToDatabase() {
+    public void gettingConnectToDatabase(Properties properties) {
         try {
+            Connection connection;
+
+            String hostName = properties.getProperty("hostName");
+            String dbName = properties.getProperty("dbName");
+            String dbUser = properties.getProperty("dbUser");
+            String password = properties.getProperty("password");
+
+            String url = String.format("jdbc:sqlserver://%s:52313;database=%s;user=%s;password=%s;encrypt=true;"
+                    , hostName.replace("\"","").trim(), dbName, dbUser, password);
+
+            System.out.println(url);
             connection = DriverManager.getConnection(url);
             String schema = connection.getSchema();
             System.out.println("Successful connection - Schema: " + schema);

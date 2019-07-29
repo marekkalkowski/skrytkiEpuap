@@ -2,8 +2,6 @@ package pl.gdansk.gci;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.stream.Stream;
 
@@ -24,13 +22,22 @@ public class App {
         }
 
 
-        String pathToFile = properties.getProperty("pathToDir") + properties.get("fileName");
+        //String pathToFile = properties.getProperty("pathToDir") + properties.get("fileName");
         String outFileName = properties.getProperty("pathToDir") + properties.get("outFileName");
 
         try {
             BufferedInputStream in = new BufferedInputStream(new URL(properties.getProperty("fileOnEpuapUrl")).openStream());
 
-            databaseConnection.gettingConnectToDatabase();
+
+
+//            for (String key: properties.stringPropertyNames()
+//                 ) {
+//                System.out.println(key.toString() + ": " + properties.getProperty(key));
+//
+//            }
+//
+//            System.out.println("----------");
+            //databaseConnection.gettingConnectToDatabase(properties);
             out = new PrintWriter(outFileName);
             Stream<String> lines = new BufferedReader(new InputStreamReader(in)).lines();;
 
