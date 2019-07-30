@@ -86,7 +86,7 @@ public class SkrytkaEpuap {
 
         lines
                 .distinct()
-               // .limit(100)
+               //.limit(100)
                 .map(this::clearLine)
                 .filter(str -> !str.equals("NAZWA,REGON,ADRES,KOD_POCZTOWY,MIEJSCOWOSC,URI"))
                 .forEach(listOfSkrytkiEpuap::add);

@@ -1,5 +1,8 @@
 package pl.gdansk.gci;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -9,11 +12,13 @@ import java.util.List;
 
 public class SkrytkiEpuapDatabaseInsertation {
 
+    public static final Logger LOG = LogManager.getLogger(SkrytkiEpuapDatabaseInsertation.class);
 
     public void insertSkrytkiIntoDB(SkrytkaEpuap skrytkaEpuap, DatabaseConnection databaseConnection) {
         Connection connection = databaseConnection.getConnection();
         List<String> splitedOneRecord = new ArrayList<>();
         List<String> fullListOfEpuapAdresses = skrytkaEpuap.getListOfSkrytkiEpuap();
+        int recordNumber = 0;
 
 
 
@@ -25,7 +30,7 @@ public class SkrytkiEpuapDatabaseInsertation {
             for ( String str:fullListOfEpuapAdresses
             ) {
 
-                splitedOneRecord = Arrays.asList(str.split(","));
+                splitedOneRecord = Arrays.asList(str.replace("'","").split(","));
                 String sqlWithAdresess = String.format("exec UMG_InsertSskrytkiEpuap @Nazwa=\'%s\', @Regon=\'%s\', @Adres=\'%s\', @KodPocztowy=\'%s\', @Miejscowosc=\'%s\', @Uri=\'%s\'"
                         , splitedOneRecord.get(0)
                         , splitedOneRecord.get(1)
@@ -35,11 +40,14 @@ public class SkrytkiEpuapDatabaseInsertation {
                         , splitedOneRecord.get(5));
 
                 statement.execute(sqlWithAdresess);
+                recordNumber++;
+                LOG.info("{} Record inserted for: {}" ,recordNumber,splitedOneRecord);
             }
 
-            System.out.println("Record inserted for: " + splitedOneRecord);
+
 
         } catch (Exception e) {
+            LOG.error("{} Error Record not inserted for: {}" ,recordNumber,splitedOneRecord);
             e.printStackTrace();
         }
     }

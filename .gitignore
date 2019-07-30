@@ -6,3 +6,4 @@ out/
 *.iml
 target/
 app.properties
+*.log
