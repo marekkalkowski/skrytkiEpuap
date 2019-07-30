@@ -1,5 +1,12 @@
 package pl.gdansk.gci;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
 public class SkrytkaEpuap {
 
     private String nazwaPodmiotu;
@@ -8,6 +15,7 @@ public class SkrytkaEpuap {
     private String kodPocztowy;
     private String miasto;
     private String adresSkrytki;
+    private List<String> listOfSkrytkiEpuap = new ArrayList<>();
 
     public SkrytkaEpuap() {
     }
@@ -69,6 +77,29 @@ public class SkrytkaEpuap {
         this.adresSkrytki = adresSkrytki;
     }
 
+    public List<String> getListOfSkrytkiEpuap() {
+        return listOfSkrytkiEpuap;
+    }
+
+    public void setListOfSkrytkiEpuap(BufferedInputStream in) {
+        Stream<String> lines = new BufferedReader(new InputStreamReader(in)).lines();
+
+        lines
+                .distinct()
+               // .limit(100)
+                .map(this::clearLine)
+                .filter(str -> !str.equals("NAZWA,REGON,ADRES,KOD_POCZTOWY,MIEJSCOWOSC,URI"))
+                .forEach(listOfSkrytkiEpuap::add);
+    }
+
+
+    private String clearLine(String str) {
+
+        String result = str.replace("\"", "").trim();
+        return result;
+    }
+
+
     @Override
     public String toString() {
         return "SkrytkaEpuap{" +
@@ -80,4 +111,6 @@ public class SkrytkaEpuap {
                 ", adresSkrytki='" + adresSkrytki + '\'' +
                 '}';
     }
+
+
 }
