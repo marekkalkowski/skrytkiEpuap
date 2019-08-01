@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class SkrytkaEpuap {
@@ -99,6 +100,23 @@ public class SkrytkaEpuap {
         return result;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SkrytkaEpuap that = (SkrytkaEpuap) o;
+        return Objects.equals(nazwaPodmiotu, that.nazwaPodmiotu) &&
+                Objects.equals(regon, that.regon) &&
+                Objects.equals(adres, that.adres) &&
+                Objects.equals(kodPocztowy, that.kodPocztowy) &&
+                Objects.equals(miasto, that.miasto) &&
+                Objects.equals(adresSkrytki, that.adresSkrytki);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nazwaPodmiotu, regon, adres, kodPocztowy, miasto, adresSkrytki);
+    }
 
     @Override
     public String toString() {

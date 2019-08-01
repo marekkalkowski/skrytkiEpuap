@@ -13,15 +13,16 @@ public class App {
     public static void main(String[] args) {
 
         final Logger LOG = LogManager.getLogger(DatabaseConnection.class);
-        LOG.info("Conecting to database .... ");
         DatabaseConnection databaseConnection = new DatabaseConnection();
         Properties properties = new Properties();
         SkrytkiEpuapDatabaseInsertation skrytkiEpuapDatabaseInsertation = new SkrytkiEpuapDatabaseInsertation();
         SkrytkaEpuap skrytkaEpuap = new SkrytkaEpuap();
 
-
         try {
+            LOG.info("Ładowanie ustawień  .... ");
             properties.load(new FileInputStream(AppProperties.APP_CONFIG_PATH));
+            LOG.info("Ustawienia załadowane  .... ");
+            LOG.info("Łączenie  do bazy danych  .... ");
             databaseConnection.gettingConnectToDatabase(properties);
             BufferedInputStream in = new BufferedInputStream(new URL(properties.getProperty("fileOnEpuapUrl")).openStream());
             skrytkaEpuap.setListOfSkrytkiEpuap(in);

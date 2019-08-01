@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
-  <Appenders>
-<!--    <Console name="Console" target="SYSTEM_OUT">-->
-<!--      &lt;!&ndash;<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger - %msg%n"/>&ndash;&gt;-->
-<!--      <PatternLayout pattern="[%d{HH:mm:ss.SSS} - %-6level] %msg%n"/>-->
-<!--    </Console>-->
+    <Appenders>
+        <File name="LogFile" fileName="epuap.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
 
-    <File name="LogFile" fileName="epuap.log">
-      <PatternLayout>
-        <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
-      </PatternLayout>
-    </File>
-
-    <Async name="Async">
-      <AppenderRef ref="LogFile"/>
-    </Async>
-  </Appenders>
+        <Async name="Async">
+            <AppenderRef ref="LogFile"/>
+        </Async>
+    </Appenders>
 
 
-  <Loggers>
-    <Root level="Error">
-<!--      <AppenderRef ref="Console" level="ALL" />-->
-      <AppenderRef ref="Async" level="INFO" />
-    </Root>
-  </Loggers>
+    <Loggers>
+        <Root level="info">
+            <!--      <AppenderRef ref="Console" level="ALL" />-->
+            <AppenderRef ref="Async" level="INFO"/>
+        </Root>
+    </Loggers>
 </Configuration>

@@ -2,7 +2,6 @@ package pl.gdansk.gci;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -21,16 +20,14 @@ public class SkrytkiEpuapDatabaseInsertation {
         int recordNumber = 0;
 
 
-
         try {
             Statement statement = connection.createStatement();
             String sqlCheckIfTableExist = "exec UMG_checkIfExistTableUmgSkrytkiEpuap";
             statement.execute(sqlCheckIfTableExist);
 
-            for ( String str:fullListOfEpuapAdresses
+            for (String str : fullListOfEpuapAdresses
             ) {
-
-                splitedOneRecord = Arrays.asList(str.replace("'","").split(","));
+                splitedOneRecord = Arrays.asList(str.replace("'", "").split(","));
                 String sqlWithAdresess = String.format("exec UMG_InsertSskrytkiEpuap @Nazwa=\'%s\', @Regon=\'%s\', @Adres=\'%s\', @KodPocztowy=\'%s\', @Miejscowosc=\'%s\', @Uri=\'%s\'"
                         , splitedOneRecord.get(0)
                         , splitedOneRecord.get(1)
@@ -41,13 +38,10 @@ public class SkrytkiEpuapDatabaseInsertation {
 
                 statement.execute(sqlWithAdresess);
                 recordNumber++;
-                LOG.info("{} Record inserted for: {}" ,recordNumber,splitedOneRecord);
+                LOG.debug("{} Record inserted for: {}", recordNumber, splitedOneRecord);
             }
-
-
-
         } catch (Exception e) {
-            LOG.error("{} Error Record not inserted for: {}" ,recordNumber,splitedOneRecord);
+            LOG.warn("{} Error Record not inserted for: {}", recordNumber, splitedOneRecord);
             e.printStackTrace();
         }
     }
